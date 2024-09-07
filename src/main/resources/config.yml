@@ -1,0 +1,4 @@
+#Configuration for Addon
+Debug:
+  isEnabled: false
+  Advanced: false

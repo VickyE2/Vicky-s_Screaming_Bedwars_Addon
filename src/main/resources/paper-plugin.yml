@@ -1,8 +1,0 @@
-name: VickySBA
-version: '0.0.1-ALPHA'
-main: org.vicky.vicky_sba.vickySBA.VickySBA
-api-version: '1.20'
-prefix: V-SBA
-load: STARTUP
-authors: [ VickyE2 ]
-description: An addon for more functionality to Screaming Bedwars
