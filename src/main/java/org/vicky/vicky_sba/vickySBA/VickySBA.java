@@ -8,10 +8,12 @@ import org.vicky.vicky_sba.vickySBA.Listeners.GameRunningListener;
 import org.vicky.vicky_sba.vickySBA.config.ConfigManager;
 import org.vicky.vicky_sba.vickySBA.expansions.BedPlaceholderExpansion;
 
+import javax.xml.transform.Source;
 import java.util.Objects;
 
 
 public final class VickySBA extends JavaPlugin {
+
     public static VickySBA plugin;
     public static VickySBA getPlugin() {
         return plugin;
@@ -26,6 +28,8 @@ public final class VickySBA extends JavaPlugin {
 
             // Load configuration values
             configManager.loadConfigValues();
+
+
             try {
                 if (getCommand("vsba") == null) {
                     getLogger().severe("The command /vsba is not registered! Check your plugin.yml");

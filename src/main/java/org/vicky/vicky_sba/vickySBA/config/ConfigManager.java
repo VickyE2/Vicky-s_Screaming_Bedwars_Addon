@@ -1,5 +1,6 @@
 package org.vicky.vicky_sba.vickySBA.config;
 
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.vicky.vicky_sba.vickySBA.VickySBA;

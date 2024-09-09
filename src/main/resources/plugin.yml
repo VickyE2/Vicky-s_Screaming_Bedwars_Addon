@@ -13,7 +13,7 @@ permissions:
 commands:
   vsba:
     description: "Main root command for V-SBA"
-    usage: "/vsba <arg>"
+    usage: "/<command> <arg>"
     aliases: [v_sba, vickysba]
     permission: vsba.admin
     permission-message: "You can't do that... Or can you? O.O"

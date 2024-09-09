@@ -20,9 +20,9 @@ public final class BedPresenceVerifier{
         updateTeamStatus(game);
     }
 
-    public void updateTeamStatus(Game player) {
+    public void updateTeamStatus(Game currentgame) {
         // Get the game of the player
-        var game = bedwarsAPI.getGameByName(player.getName());
+        var game = bedwarsAPI.getGameByName(currentgame.getName());
 
         // Get available and running teams
         var availableTeams = game.getAvailableTeams();
@@ -34,7 +34,8 @@ public final class BedPresenceVerifier{
         // Check each available team and update the status in the map
         for (var team : availableTeams) {
             String teamName = team.getName().toLowerCase();
-            if (runningTeams.contains(team)) {
+            boolean isContainedR = runningTeams.stream().anyMatch(t -> t.getName().equals(teamName));
+            if (isContainedR) {
                 // Team is still running, put it as true
                 teamStatusMap.put(teamName, true);
             } else {
@@ -66,16 +67,34 @@ public final class BedPresenceVerifier{
     }
 
     public boolean isTeamPresent(String teamColor) {
-        return teamStatusMap.getOrDefault(teamColor.toLowerCase(), false);
+        return teamStatusMap.get(teamColor);
     }
     public Map<String, Boolean> getTeamStatus() {
         return new HashMap<>(teamStatusMap);
     }
 
     public boolean isBedPresent(String teamName) {
-        return bedStatusMap.getOrDefault(teamName.toLowerCase(), false);
+        return bedStatusMap.getOrDefault(teamName, false);
     }
     public Map<String, Boolean> getBedStatus() {
         return new HashMap<>(bedStatusMap);
+    }
+
+    // Method to return combined status of teams and beds
+    public String getCombinedStatus() {
+        StringBuilder statusBuilder = new StringBuilder();
+        statusBuilder.append("\n");
+        statusBuilder.append("=======================[VSBA]=======================");
+        statusBuilder.append("\n");
+        for (String team : teamStatusMap.keySet()) {
+            boolean isRunning = teamStatusMap.get(team);
+            boolean bedPresent = bedStatusMap.getOrDefault(team, false); // Default to false if no entry
+            statusBuilder.append("Team ").append(team)
+                    .append(": Running: ").append(isRunning)
+                    .append(", Bed Present: ").append(bedPresent)
+                    .append("\n");
+        }
+        statusBuilder.append("+=====================[CONFIG]====================+");
+        return statusBuilder.toString();
     }
 }

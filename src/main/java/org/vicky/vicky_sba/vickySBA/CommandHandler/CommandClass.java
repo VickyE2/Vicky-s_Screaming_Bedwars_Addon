@@ -21,22 +21,29 @@ public class CommandClass implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        if (args.length > 0 && args[0].equalsIgnoreCase("reload")){
-            ConfigManager configManager = new ConfigManager(plugin);
-            if (sender instanceof Player player) {
+        if (command.getName().equalsIgnoreCase("vsba")) {
+            if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
+                ConfigManager configManager = new ConfigManager(plugin);
+                if (args.length > 1 && args[1].equalsIgnoreCase("config")) {
+                    if (sender instanceof Player player) {
 
-                player.sendMessage("Reloading Addon Plugin");
-                configManager.reloadPluginConfig();
-            }
-            if (sender instanceof Server) {
+                        player.sendMessage("Reloading Addon Plugin");
+                        configManager.reloadPluginConfig();
+                    }
+                    if (sender instanceof Server) {
 
-                plugin.getLogger().info("Reloading Addon Plugin");
-                configManager.reloadPluginConfig();
+                        plugin.getLogger().info("Reloading Addon Plugin");
+                        configManager.reloadPluginConfig();
+                    }
+                    return true;
+                }else{
+                    sender.sendMessage(ChatColor.RED + "That argument is not valid");
+                    sender.sendMessage("valid arguments are: " + ChatColor.GOLD + "config");
+                }
             }
-            return true;
         }
 
-        sender.sendMessage("Unknown command. Use " + ChatColor.GOLD + "/vsba help " + ChatColor.RESET + "for a list of available commands.");
+        sender.sendMessage("Unknown command. Use " + ChatColor.GOLD + "/" + command + " help " + ChatColor.RESET + "for a list of available commands.");
         return false;
     }
 }
