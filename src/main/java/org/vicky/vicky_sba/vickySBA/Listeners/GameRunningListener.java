@@ -10,10 +10,12 @@ import org.screamingsandals.bedwars.api.events.BedWarsGameDisabledEvent;
 import org.screamingsandals.bedwars.api.events.BedwarsGameEndEvent;
 import org.screamingsandals.bedwars.api.events.BedwarsGameStartedEvent;
 import org.screamingsandals.bedwars.api.game.Game;
+import org.v_utls.utilities.TimeDifference;
 import org.vicky.vicky_sba.vickySBA.SB_extension.BedPresenceVerifier;
 import org.vicky.vicky_sba.vickySBA.VickySBA;
 import org.vicky.vicky_sba.vickySBA.config.ConfigManager;
 import org.vicky.vicky_sba.vickySBA.expansions.PlaceholderUtil;
+import org.vicky.vicky_sba.vickySBA.global.Global;
 
 import java.util.List;
 
@@ -35,6 +37,7 @@ public class GameRunningListener implements Listener {
     @EventHandler
     public void onGameStarts(BedwarsGameStartedEvent event) {
         Game game = event.getGame();
+        long startTime = System.currentTimeMillis();
 
         // Start the task
         taskId = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
@@ -42,6 +45,8 @@ public class GameRunningListener implements Listener {
             BedPresenceVerifier verifier = new BedPresenceVerifier(bedwarsAPI, game);
             verifier.updateTeamStatus(game);
             verifier.updateBedStatus(game);
+            long currentTime = System.currentTimeMillis();
+            Global.timeDiff = new TimeDifference(startTime, currentTime);
 
         }, 0L, 20L).getTaskId();// 0L is the delay before starting, 40L is the interval (2 seconds)
         taskId2 = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
@@ -57,6 +62,9 @@ public class GameRunningListener implements Listener {
                 Bukkit.getLogger().info("Available teams: " + availableTeams.size());
                 Bukkit.getLogger().info("Running teams: " + runningTeams.size());
                 Bukkit.getLogger().info("Config 'Default.isEnabled' is: " + isEnabled);
+                Bukkit.getLogger().info("ArenaTime: " + game.getArenaTime().getTime());
+                Bukkit.getLogger().info("ArenaTime2: " + game.getArenaTime().time);
+                Bukkit.getLogger().info("GameTime: " + game.getGameTime());
                 String combinedStatus = verifier.getCombinedStatus();
                 Bukkit.getLogger().info(combinedStatus);
                 /*
