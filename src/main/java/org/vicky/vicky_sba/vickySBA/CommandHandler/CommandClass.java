@@ -51,7 +51,7 @@ public class CommandClass implements CommandExecutor {
                 }
                 if (sender instanceof Server) {
 
-                    plugin.getLogger().info("Reloading Addon Plugin");
+                    plugin.getLogger().info("Listing Registered Placeholders: ");
                     PlaceholderStorer  placeholderStorer = new PlaceholderStorer();
                     placeholderStorer.listPlaceholders(plugin.getName(), plugin);
                 }
