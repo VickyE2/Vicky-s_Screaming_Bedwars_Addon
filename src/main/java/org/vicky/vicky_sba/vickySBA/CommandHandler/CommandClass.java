@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.v_utls.utilities.PlaceholderStorer;
 import org.vicky.vicky_sba.vickySBA.VickySBA;
 import org.vicky.vicky_sba.vickySBA.config.ConfigManager;
 
@@ -35,15 +36,30 @@ public class CommandClass implements CommandExecutor {
                         plugin.getLogger().info("Reloading Addon Plugin");
                         configManager.reloadPluginConfig();
                     }
-                    return true;
                 }else{
                     sender.sendMessage(ChatColor.RED + "That argument is not valid");
                     sender.sendMessage("valid arguments are: " + ChatColor.GOLD + "config");
                 }
+                return true;
+            }
+            if (args.length > 0 && args[0].equalsIgnoreCase("placeholders")){
+                if (sender instanceof Player player) {
+
+                    player.sendMessage("Reloading Addon Plugin");
+                    PlaceholderStorer  placeholderStorer = new PlaceholderStorer();
+                    placeholderStorer.listToPlayer(player.getName(), player);
+                }
+                if (sender instanceof Server) {
+
+                    plugin.getLogger().info("Reloading Addon Plugin");
+                    PlaceholderStorer  placeholderStorer = new PlaceholderStorer();
+                    placeholderStorer.listPlaceholders(plugin.getName(), plugin);
+                }
+                return true;
             }
         }
 
-        sender.sendMessage("Unknown command. Use " + ChatColor.GOLD + "/" + command + " help " + ChatColor.RESET + "for a list of available commands.");
+        sender.sendMessage("Unknown command. Use " + ChatColor.GOLD + "/" + command.getName() + " help " + ChatColor.RESET + "for a list of available commands.");
         return false;
     }
 }
